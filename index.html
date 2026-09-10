@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PetAmigos — Cadastro de Tutores</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f4f8;
+      color: #333;
+    }
+
+    header {
+      background-color: #1a3c5e;
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    header img {
+      width: 48px;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+    }
+
+    header p {
+      font-size: 0.9rem;
+      color: #a0c4e8;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 32px;
+    }
+
+    .card h2 {
+      font-size: 1.2rem;
+      color: #1a3c5e;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e2eaf2;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    input, select {
+      padding: 10px 14px;
+      border: 1px solid #cdd6e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #333;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #1a7abf;
+      box-shadow: 0 0 0 3px rgba(26,122,191,0.1);
+    }
+
+    .btn {
+      padding: 11px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background-color: #1a7abf;
+      color: white;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .btn-primary:hover {
+      background-color: #1566a0;
+    }
+
+    .btn-secondary {
+      background-color: #e8f0f8;
+      color: #1a3c5e;
+      width: 100%;
+    }
+
+    .btn-secondary:hover {
+      background-color: #d0e2f4;
+    }
+
+    #mensagem {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    #mensagem.sucesso {
+      background-color: #e6f9f0;
+      color: #1a6b40;
+      border: 1px solid #a3d9bc;
+      display: block;
+    }
+
+    #mensagem.erro {
+      background-color: #fdecea;
+      color: #8b1a1a;
+      border: 1px solid #f5b7b1;
+      display: block;
+    }
+
+    #lista-tutores {
+      margin-top: 16px;
+    }
+
+    .tutor-item {
+      background-color: #f7fafd;
+      border: 1px solid #dce6f0;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 20px;
+    }
+
+    .tutor-item span {
+      font-size: 0.88rem;
+      color: #555;
+    }
+
+    .tutor-item strong {
+      font-size: 0.95rem;
+      color: #1a3c5e;
+      grid-column: 1 / -1;
+      margin-bottom: 4px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-banho      { background: #e0f0ff; color: #1a5fa8; }
+    .badge-consulta   { background: #e6f9f0; color: #1a6b40; }
+    .badge-hospedagem { background: #fff3e0; color: #a85e00; }
+
+    #nenhum-registro {
+      text-align: center;
+      color: #999;
+      font-size: 0.9rem;
+      padding: 20px 0;
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>PetAmigos</h1>
+      <p>Sistema de Cadastro de Tutores</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- FORMULÁRIO DE CADASTRO -->
+    <div class="card">
+      <h2>Cadastrar Tutor</h2>
+
+      <div class="form-group">
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" placeholder="Ex.: João da Silva" />
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" placeholder="Ex.: joao@email.com" />
+      </div>
+
+      <div class="form-group">
+        <label for="telefone">Telefone</label>
+        <input type="text" id="telefone" placeholder="Ex.: (62) 99999-0000" />
+      </div>
+
+      <div class="form-group">
+        <label for="servico">Serviço contratado</label>
+        <select id="servico">
+          <option value="">— Selecione um serviço —</option>
+          <option value="banho">Banho e Tosa</option>
+          <option value="consulta">Consulta Veterinária</option>
+          <option value="hospedagem">Hospedagem</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary" onclick="cadastrar()">Cadastrar</button>
+
+      <div id="mensagem"></div>
+    </div>
+
+    <!-- LISTAGEM -->
+    <div class="card">
+      <h2>Tutores Cadastrados</h2>
+      <button class="btn btn-secondary" onclick="listar()">🔄 Ver Cadastros</button>
+
+      <div id="nenhum-registro">Nenhum tutor cadastrado ainda.</div>
+      <div id="lista-tutores"></div>
+    </div>
+
+  </main>
+
+  <footer>
+    PetAmigos Ltda. · Sistema interno · SENAI — Técnico em Desenvolvimento de Sistemas
+  </footer>
+
+  <script>
+    // ───── CADASTRAR ─────
+    async function cadastrar() {
+      const nome     = document.getElementById('nome').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const servico  = document.getElementById('servico').value;
+
+      const msgEl = document.getElementById('mensagem');
+      msgEl.className = '';
+      msgEl.style.display = 'none';
+
+      try {
+        const resposta = await fetch('/cadastrar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, email, telefone, servico })
+        });
+
+        const dados = await resposta.json();
+
+        if (resposta.ok) {
+          msgEl.textContent = dados.mensagem;
+          msgEl.className = 'sucesso';
+          limparFormulario();
+        } else {
+          msgEl.textContent = dados.mensagem;
+          msgEl.className = 'erro';
+        }
+      } catch (e) {
+        msgEl.textContent = 'Não foi possível conectar ao servidor.';
+        msgEl.className = 'erro';
+      }
+    }
+
+    // ───── LISTAR ─────
+    async function listar() {
+      const listaEl   = document.getElementById('lista-tutores');
+      const nenhumEl  = document.getElementById('nenhum-registro');
+
+      listaEl.innerHTML = '';
+      nenhumEl.style.display = 'none';
+
+      try {
+        const resposta = await fetch('/listar');
+        const tutores  = await resposta.json();
+
+        if (!Array.isArray(tutores) || tutores.length === 0) {
+          nenhumEl.style.display = 'block';
+          return;
+        }
+
+        tutores.forEach(t => {
+          const badgeClass = {
+            banho:      'badge-banho',
+            consulta:   'badge-consulta',
+            hospedagem: 'badge-hospedagem'
+          }[t.servico] || '';
+
+          const servicoLabel = {
+            banho:      'Banho e Tosa',
+            consulta:   'Consulta Veterinária',
+            hospedagem: 'Hospedagem'
+          }[t.servico] || t.servico;
+
+          listaEl.innerHTML += `
+            <div class="tutor-item">
+              <strong>#${t.id} — ${t.nome}</strong>
+              <span>${t.email}</span>
+              <span>${t.telefone}</span>
+              <span style="grid-column:1/-1; margin-top:4px;">
+                <span class="badge ${badgeClass}">${servicoLabel}</span>
+              </span>
+            </div>
+          `;
+        });
+      } catch (e) {
+        listaEl.innerHTML = '<p style="color:red;">Erro ao carregar registros.</p>';
+      }
+    }
+
+    // ───── LIMPAR FORMULÁRIO ─────
+    function limparFormulario() {
+      document.getElementById('nome').value     = '';
+      document.getElementById('email').value    = '';
+      document.getElementById('telefone').value = '';
+      document.getElementById('servico').value  = '';
+    }
+  </script>
+
+</body>
+</html>

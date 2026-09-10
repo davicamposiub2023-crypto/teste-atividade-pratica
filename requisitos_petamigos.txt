@@ -1,0 +1,92 @@
+========================================================
+  DOCUMENTO DE REQUISITOS — PETAMIGOS LTDA.
+  Versão: 1.0
+  Solicitante: Marcos Vieira — Gerente da PetAmigos
+========================================================
+
+CONTEXTO
+--------
+A PetAmigos é uma loja de serviços para animais de estimação localizada
+na região central da cidade. Oferece três serviços principais:
+  - Banho e tosa
+  - Consultas veterinárias
+  - Hospedagem de animais
+
+Atualmente, o cadastro dos clientes (tutores) é feito em papel, o que
+causa retrabalho, erros de digitação e perda de informações ao longo
+do tempo. O gerente Marcos Vieira solicitou o desenvolvimento de um
+módulo digital simples para resolver esse problema.
+
+========================================================
+  REQUISITOS FUNCIONAIS
+========================================================
+
+RF01 — CADASTRO DE TUTOR
+  O sistema deve permitir registrar um tutor com os seguintes dados:
+    - Nome completo     (obrigatório)
+    - E-mail            (obrigatório)
+    - Telefone          (obrigatório)
+    - Serviço contratado: banho, consulta ou hospedagem (obrigatório)
+
+  Regra: nenhum campo pode ser enviado em branco. O sistema deve
+  informar ao atendente quando um campo obrigatório não foi preenchido.
+
+RF02 — LISTAGEM DE TUTORES
+  O sistema deve exibir todos os tutores cadastrados em uma listagem
+  na própria página, sem necessidade de recarregar o navegador.
+  A listagem deve mostrar todos os campos de cada tutor.
+
+RF03 — INTEGRIDADE DOS DADOS
+  Não deve ser possível salvar um cadastro com qualquer campo em branco.
+  O sistema deve exibir uma mensagem de erro clara ao atendente
+  quando a tentativa de cadastro for inválida.
+
+========================================================
+  REQUISITOS NÃO FUNCIONAIS
+========================================================
+
+RNF01: O sistema deve funcionar em qualquer navegador moderno
+       (Chrome, Firefox, Edge).
+
+RNF02: Os dados devem ser persistidos em banco de dados (SQLite).
+       Não podem se perder ao reiniciar o servidor.
+
+RNF03: A interface web já fornecida (index.html) não deve ser alterada.
+       Apenas o backend (server.js e database.js) precisa ser implementado.
+
+========================================================
+  FORA DO ESCOPO DESTA VERSÃO
+========================================================
+
+  - Login ou controle de acesso de usuários
+  - Edição ou exclusão de registros já cadastrados
+  - Cadastro do animal (apenas o tutor é registrado nesta versão)
+  - Relatórios, filtros ou busca na listagem
+
+========================================================
+  CRITÉRIO DE ACEITE DO CLIENTE
+========================================================
+
+O sistema será considerado aceito quando o gerente Marcos conseguir,
+sem ajuda técnica:
+
+  1. Acessar o sistema pelo navegador
+  2. Preencher o formulário com os dados de um tutor
+  3. Clicar em "Cadastrar" e ver a mensagem de confirmação
+  4. Clicar em "Ver Cadastros" e visualizar o registro salvo na listagem
+
+Tudo isso em menos de 30 segundos.
+
+========================================================
+  OBSERVAÇÕES TÉCNICAS
+========================================================
+
+  - O banco de dados utilizado é o SQLite (arquivo local petamigos.db)
+  - O backend deve ser desenvolvido em Node.js com Express
+  - A conexão com o SQLite deve ser feita via módulo 'sqlite3' para Node
+  - O frontend se comunica com o backend via requisições HTTP (fetch)
+    usando JSON como formato de troca de dados
+
+========================================================
+  FIM DO DOCUMENTO
+========================================================
