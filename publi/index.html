@@ -280,7 +280,7 @@
       msgEl.style.display = 'none';
 
       try {
-        const resposta = await fetch('/cadastrar', {
+        const resposta = await fetch('https://studious-system-6v5wgwrq4v5crxj7-3000.app.github.dev/cadastrar', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nome, email, telefone, servico })
@@ -311,7 +311,7 @@
       nenhumEl.style.display = 'none';
 
       try {
-        const resposta = await fetch('/listar');
+        const resposta = await fetch('https://studious-system-6v5wgwrq4v5crxj7-3000.app.github.dev/listar');
         const tutores  = await resposta.json();
 
         if (!Array.isArray(tutores) || tutores.length === 0) {
